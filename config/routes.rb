@@ -1,19 +1,13 @@
 SampleApp::Application.routes.draw do
 
-  get "users/new"
-
-#  match '/', :to => "pages#home"
+  get 'users/new'         # TODO: remove
   root :to => 'pages#home'
 
   %w{contact about help}.each do |page|
     match page, :to => "pages##{page}"
   end
 
-#  get "pages/home"
-#  get "pages/contact"
-#  match 'contact', :to => 'pages#contact'
-#  get "pages/about"
-#  get "pages/help"
+  match 'signup', :to => 'users#new'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
