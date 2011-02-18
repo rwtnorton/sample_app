@@ -1,6 +1,7 @@
 SampleApp::Application.routes.draw do
 
-  get 'users/new'         # TODO: remove
+  resources :users
+
   root :to => 'pages#home'
 
   %w{contact about help}.each do |page|
