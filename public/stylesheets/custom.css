@@ -102,6 +102,10 @@ a.signup_button {
   padding: 20px;
 }
 
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
 /* Round corners */
 
 .round {
