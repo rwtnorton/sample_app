@@ -13,6 +13,33 @@ describe UsersController do
       get :new
       response.should have_selector('title', :content => 'Sign up')
     end
+
+    describe "fields" do
+      before(:each) do
+        @input_format = %q{input[name='user[%s]'][type='%s']}
+      end
+
+      it "should have a name field" do
+        get :new
+        response.should have_selector @input_format % %w{ name text }
+      end
+
+      it "should have an email field" do
+        get :new
+        response.should have_selector @input_format % %w{ email text }
+      end
+
+      it "should have a password field" do
+        get :new
+        response.should have_selector @input_format % %w{ password password }
+      end
+
+      it "should have a password confirmation field" do
+        get :new
+        response.should have_selector @input_format % %w{
+          password_confirmation password }
+      end
+    end
   end
 
   describe "GET 'show'" do
