@@ -59,6 +59,12 @@ class User < ActiveRecord::Base
     user
   end
 
+  def self.authenticate_with_salt(user_id, cookie_salt)
+    user = find user_id
+    return nil if user.nil?
+    user.salt == cookie_salt ? user : nil
+  end
+
   private
 
     def secure_hash(string)

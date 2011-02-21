@@ -1,14 +1,16 @@
 SampleApp::Application.routes.draw do
 
-  resources :users
-
   root :to => 'pages#home'
-
   %w{contact about help}.each do |page|
     match page, :to => "pages##{page}"
   end
 
-  match 'signup', :to => 'users#new'
+  resources :users
+  match 'signup',  :to => 'users#new'
+
+  resources :sessions, :only => %w{new create destroy}.map(&:to_sym)
+  match 'signin',  :to => 'sessions#new'
+  match 'signout', :to => 'sessions#destroy'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
