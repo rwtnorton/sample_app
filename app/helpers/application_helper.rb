@@ -15,8 +15,8 @@ module ApplicationHelper
   end
 
   def sign_in_out_link
-    signed_in? ? link_to('Sign out', signout_path, :method => :delete)
-               : link_to('Sign in',  signin_path)
+    return link_to('Sign out', signout_path, :method => :delete) if signed_in?
+    link_to('Sign in',  signin_path)
   end
 
 end
