@@ -4,6 +4,7 @@ class UsersController < ApplicationController
                                                 :destroy]
   before_filter :ensure_correct_user, :only => [:edit, :update]
   before_filter :ensure_admin_user,   :only => [:destroy]
+  before_filter :ensure_signed_out,   :only => [:new, :create]
 
   def index
     @title = 'All users'
@@ -71,6 +72,10 @@ class UsersController < ApplicationController
 
     def ensure_admin_user
       redirect_to root_path unless current_user.admin?
+    end
+
+    def ensure_signed_out
+      redirect_to root_path if signed_in?
     end
 
 end

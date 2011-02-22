@@ -92,6 +92,15 @@ describe UsersController do
           password_confirmation password }
       end
     end
+
+    describe "for signed-in users" do
+      it "should redirect to the root page" do
+        user = Factory(:user)
+        test_sign_in user
+        get :new
+        response.should redirect_to root_path
+      end
+    end
   end
 
   describe "GET 'show'" do
@@ -186,6 +195,21 @@ describe UsersController do
       it "should sign the user in" do
         post :create, :user => @attr
         controller.should be_signed_in
+      end
+    end
+
+    describe "for signed-in users" do
+      it "should redirect to the root page" do
+        user = Factory(:user)
+        test_sign_in user
+        attr = {
+          :name                  => user.name,
+          :email                 => user.email,
+          :password              => user.password,
+          :password_confirmation => user.password_confirmation,
+        }
+        post :create, :user => attr
+        response.should redirect_to root_path
       end
     end
 
