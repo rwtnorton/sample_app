@@ -53,6 +53,38 @@ describe UsersController do
                                       :content => 'Next')
       end
     end
+
+    describe "as non-admin" do
+      before :each do
+        @user  = test_sign_in(Factory(:user))
+        second = Factory(:user, :email => 'another@example.com')
+        third  = Factory(:user, :email => 'another@example.net')
+
+        @users = [@user, second, third]
+      end
+
+      it "should not have delete links" do
+        get :index
+        response.should_not have_selector('a',
+                                          :content => 'delete')
+      end
+    end
+
+    describe "as admin" do
+      before :each do
+        @user  = test_sign_in(Factory(:user, :admin => true))
+        second = Factory(:user, :email => 'another@example.com')
+        third  = Factory(:user, :email => 'another@example.net')
+
+        @users = [@user, second, third]
+      end
+
+      it "should have delete links" do
+        get :index
+        response.should have_selector('a',
+                                      :content => 'delete')
+      end
+    end
   end
 
   describe "GET 'new'" do
