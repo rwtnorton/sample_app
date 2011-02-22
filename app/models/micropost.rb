@@ -3,4 +3,5 @@ class Micropost < ActiveRecord::Base
 
   belongs_to :user
 
+  default_scope :order => %q{microposts.created_at DESC}
 end

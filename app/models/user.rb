@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
                   :password_confirmation
   attr_accessor   :password
 
-  has_many :microposts
+  has_many :microposts, :dependent => :destroy
 
   email_regex = /
     \A
