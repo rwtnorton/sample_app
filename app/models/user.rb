@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
                   :password_confirmation
   attr_accessor   :password
 
+  has_many :microposts
+
   email_regex = /
     \A
     [\w\+\-.]+
