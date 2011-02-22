@@ -18,10 +18,13 @@ namespace :db do
                  :email                 => 'joy@example.com',
                  :password              => 'penguins',
                  :password_confirmation => 'penguins')
+    # Blarg gets to be our sample admin.
+    admin =
     User.create!(:name                  => 'Gargantuan Blarg',
                  :email                 => 'blarg@example.com',
                  :password              => 'gargantuan',
                  :password_confirmation => 'gargantuan')
+    admin.toggle!(:admin)
 
     # Create 97 other sample users.
     97.times do |n|
