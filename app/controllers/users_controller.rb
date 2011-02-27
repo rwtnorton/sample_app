@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 
-  before_filter :authenticate,        :only => [:edit, :update, :index,
-                                                :destroy]
+  before_filter :authenticate,        :except => [:show, :new, :create]
   before_filter :ensure_correct_user, :only => [:edit, :update]
   before_filter :ensure_admin_user,   :only => [:destroy]
   before_filter :ensure_signed_out,   :only => [:new, :create]
@@ -62,6 +61,20 @@ class UsersController < ApplicationController
       ]
     end
     redirect_to users_path
+  end
+
+  def following
+    @user = User.find(params[:id])
+    @title = 'Following'
+    @users = @user.following.paginate(:page => params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @title = 'Followers'
+    @users = @user.followers.paginate(:page => params[:page])
+    render 'show_follow'
   end
 
   private

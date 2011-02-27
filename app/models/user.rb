@@ -22,7 +22,16 @@ class User < ActiveRecord::Base
                   :password_confirmation
   attr_accessor   :password
 
-  has_many :microposts, :dependent => :destroy
+  has_many :microposts,             :dependent    => :destroy
+  has_many :relationships,          :foreign_key  => :follower_id,
+                                    :dependent    => :destroy
+  has_many :following,              :through      => :relationships,
+                                    :source       => :followed
+  has_many :reverse_relationships,  :foreign_key  => :followed_id,
+                                    :class_name   => 'Relationship',
+                                    :dependent    => :destroy
+  has_many :followers,              :through      => :reverse_relationships,
+                                    :source       => :follower
 
   email_regex = /
     \A
@@ -71,6 +80,18 @@ class User < ActiveRecord::Base
     user = find_by_id user_id
     return nil if user.nil?
     user.salt == cookie_salt ? user : nil
+  end
+
+  def following?(followed)
+    relationships.find_by_followed_id(followed)
+  end
+
+  def follow!(followed)
+    relationships.create!(:followed_id => followed.id)
+  end
+
+  def unfollow!(followed)
+    relationships.find_by_followed_id(followed).destroy
   end
 
   private

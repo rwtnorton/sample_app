@@ -5,14 +5,19 @@ SampleApp::Application.routes.draw do
     match page, :to => "pages##{page}"
   end
 
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
   match 'signup',  :to => 'users#new'
 
   resources :sessions, :only => %w{new create destroy}.map(&:to_sym)
   match 'signin',  :to => 'sessions#new'
   match 'signout', :to => 'sessions#destroy'
 
-  resources :microposts, :only => [:create, :destroy]
+  resources :microposts,    :only => [:create, :destroy]
+  resources :relationships, :only => [:create, :destroy]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
